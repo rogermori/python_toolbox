@@ -13,7 +13,6 @@ pip install h7-env-manager
 - Centralized environment variable management
 - Support for required and optional environment variables
 - Automatic loading of .env files
-- Helper methods for building URLs from templates
 
 ## Usage
 
@@ -26,8 +25,6 @@ api_key = EnvManager.get_required_env_var("API_KEY")
 # Get optional environment variable with default value
 debug_mode = EnvManager.get_optional_env_var("DEBUG_MODE", "false")
 
-# Build URLs from templates defined in environment variables
-resource_url = EnvManager.build_resource_url("resource_id_123")
 ```
 
 ## Requirements

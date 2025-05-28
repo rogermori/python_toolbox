@@ -1,7 +1,7 @@
 import unittest
 import os
 import sys
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
 # Add the src directory to the path so we can import the package
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
@@ -35,13 +35,6 @@ class TestEnvManager(unittest.TestCase):
         value = EnvManager.get_optional_env_var("MISSING_VAR", "default_value")
         self.assertEqual(value, "default_value")
         mock_getenv.assert_called_once_with("MISSING_VAR", "default_value")
-    
-    @patch('h7_env_manager.env_manager.EnvManager.get_required_env_var')
-    def test_build_resource_url(self, mock_get_required):
-        """Test that build_resource_url formats the URL correctly"""
-        mock_get_required.return_value = "https://api.example.com/resource/{RESOURCE_ID}"
-        url = EnvManager.build_resource_url("123")
-        self.assertEqual(url, "https://api.example.com/resource/123")
 
 if __name__ == '__main__':
     unittest.main()

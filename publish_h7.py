@@ -23,7 +23,7 @@ import shutil
 from pathlib import Path
 
 # Package directory
-PACKAGE_DIR = Path("C:/Users/RogerMori/projects/python_toolbox/h7-file-finder")
+PACKAGE_DIR = Path("C:/Users/RogerMori/projects/python_toolbox/h7-env-manager")
 
 
 def check_dependencies():

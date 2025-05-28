@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "h7-env-manager"
-version = "1.0.0"
+version = "1.0.1"
 description = "Core utility classes for environment variable management in Python projects"
 readme = "README.md"
 authors = [
@@ -19,7 +19,7 @@ classifiers = [
 requires-python = ">=3.7"
 dependencies = [
     "python-dotenv>=0.19.0",
-    "h7-file-finder>=1.0.0",
+    "h7-file-finder>=1.0.1",
 ]
 
 [project.urls]
