@@ -8,4 +8,4 @@ This package provides utilities for logging management in a project.
 __version__ = "1.0.0"
 
 # Import main class to make it available at package level
-from .logger_manager import LoggerManager
+from .logger_manager import LoggerManager as LoggerManager

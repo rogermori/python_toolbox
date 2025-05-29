@@ -1,9 +1,19 @@
-import os
+"""
+Logger Manager module for centralized logging configuration.
+
+This module provides a LoggerManager class to set up and manage loggers
+throughout the application with consistent configuration and behavior.
+"""
+
 import logging
+import os
 from datetime import datetime
 from logging.handlers import RotatingFileHandler
-from h7_file_finder import find_logs_folder
+from typing import Dict
+
 from h7_env_manager import EnvManager
+from h7_file_finder import find_project_root
+
 
 class LoggerManager:
     """
@@ -12,18 +22,22 @@ class LoggerManager:
     """
 
     # Dictionary to store loggers by name to avoid recreating them
-    _loggers = {}
+    _loggers: Dict[str, logging.Logger] = {}  # noqa: RUF012
 
     @classmethod
-    def setup_logger(cls, logger_name=None, log_file_prefix=None):
+    def setup_logger(cls, logger_name=None, log_file_prefix=None, logs_dir=None):
         """
         Set up and return a logger with the specified name.
         If a logger with this name already exists, return the existing logger.
+        It allows custom loggers to be created with different names in DEBUG MODE.
+        If no logs_dir is provided, uses the logs folder in the project root.
 
         Args:
             logger_name (str): Name of the logger to create or retrieve
             log_file_prefix (str, optional): Prefix for the log file name.
-                                           If None, uses logger_name
+                                             If None, uses logger_name
+            logs_dir (Path, optional): Directory where logs will be stored.
+                                      If None, uses 'logs' in project root.
 
         Returns:
             logging.Logger: Configured logger object
@@ -37,7 +51,7 @@ class LoggerManager:
             return cls._loggers[logger_name]
 
         # Create logs directory if it doesn't exist
-        logs_dir = find_logs_folder()
+        logs_dir = logs_dir or (find_project_root() / 'logs')
         if not os.path.exists(logs_dir):
             os.makedirs(logs_dir)
 
