@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "h7-env-manager"
-version = "1.0.1"
+version = "1.0.2"
 description = "Core utility classes for environment variable management in Python projects"
 readme = "README.md"
 authors = [
@@ -33,9 +33,37 @@ package-dir = {"" = "src"}
 testpaths = ["tests"]
 
 [tool.flake8]
-max-line-length = 100
+max-line-length = 120
 exclude = [".git", "__pycache__", "build", "dist"]
 
 [tool.black]
-line-length = 100
+line-length = 120
 target-version = ["py37", "py38", "py39", "py310"]
+
+[tool.ruff]
+line-length = 120
+fix = true
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors (PEP 8)
+    "F",      # pyflakes (logic errors)
+    "W",      # pycodestyle warnings
+    "I",      # isort (import sorting)
+    "B",      # bugbear (extra best practices)
+    "C90",    # mccabe (complexity)
+    "D",      # pydocstyle (docstrings)
+    "UP",     # pyupgrade (Python version modernization)
+    "RUF",    # Ruff-specific rules (inc. RUF100: Black formatting)
+]
+ignore = [
+    # Ignore rules that conflict with your preference for minimal comments
+    "D203",  # one-blank-line-before-class (conflicts with D211)
+    "D205",  # one-blank-line in comments
+    "D212",  # multi-line-summary-first-line (conflicts with D213)
+
+]
+
+[tool.ruff.lint.pydocstyle]
+# Use Google-style docstrings
+convention = "google"

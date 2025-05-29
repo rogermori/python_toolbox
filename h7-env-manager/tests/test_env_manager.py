@@ -34,7 +34,56 @@ class TestEnvManager(unittest.TestCase):
         mock_getenv.return_value = None
         value = EnvManager.get_optional_env_var("MISSING_VAR", "default_value")
         self.assertEqual(value, "default_value")
-        mock_getenv.assert_called_once_with("MISSING_VAR", "default_value")
+        mock_getenv.assert_called()
+        mock_getenv.assert_called_once_with("MISSING_VAR")
+
+    @patch("h7_env_manager.env_manager.EnvManager.get_optional_env_var")
+    @patch("h7_env_manager.env_manager._dotenv_loaded", True)  # Skip loading dotenv
+    def test_get_optional_bool_env_var_true(self, mock_get_optional):
+        """Test that get_optional_bool_env_var returns True when var is 'true'"""
+        mock_get_optional.return_value = "true"
+        result = EnvManager.get_optional_bool_env_var("BOOL_VAR", False)
+        self.assertTrue(result)
+        mock_get_optional.assert_called()
+        mock_get_optional.assert_called_once_with("BOOL_VAR")
+
+    @patch("h7_env_manager.env_manager.EnvManager.get_optional_env_var")
+    @patch("h7_env_manager.env_manager._dotenv_loaded", True)  # Skip loading dotenv
+    def test_get_optional_bool_env_var_false(self, mock_get_optional):
+        """Test that get_optional_bool_env_var returns False when var is not 'true'"""
+        mock_get_optional.return_value = "false"
+        result = EnvManager.get_optional_bool_env_var("BOOL_VAR", True)
+        self.assertFalse(result)
+        mock_get_optional.assert_called_once_with("BOOL_VAR")
+
+    @patch("h7_env_manager.env_manager.EnvManager.get_optional_env_var")
+    @patch("h7_env_manager.env_manager._dotenv_loaded", True)  # Skip loading dotenv
+    def test_get_optional_bool_env_var_missing(self, mock_get_optional):
+        """Test that get_optional_bool_env_var returns default when var is missing"""
+        mock_get_optional.return_value = None
+        result = EnvManager.get_optional_bool_env_var("MISSING_VAR", True)
+        self.assertTrue(result)
+        mock_get_optional.assert_called_once_with("MISSING_VAR")
+
+    @patch("h7_env_manager.env_manager.EnvManager.get_optional_env_var")
+    @patch("h7_env_manager.env_manager._dotenv_loaded", True)  # Skip loading dotenv
+    def test_get_optional_bool_env_var_empty(self, mock_get_optional):
+        """Test that get_optional_bool_env_var returns default when var is empty string"""
+        mock_get_optional.return_value = ""
+        result = EnvManager.get_optional_bool_env_var("EMPTY_VAR", False)
+        self.assertFalse(result)
+        mock_get_optional.assert_called_once_with("EMPTY_VAR")
+
+    @patch("h7_env_manager.env_manager.EnvManager.get_optional_env_var")
+    @patch("h7_env_manager.env_manager._dotenv_loaded", True)  # Skip loading dotenv
+    def test_get_optional_bool_env_var_case_insensitive(self, mock_get_optional):
+        """Test that get_optional_bool_env_var handles case insensitively"""
+        mock_get_optional.return_value = "TRUE"
+        result = EnvManager.get_optional_bool_env_var("BOOL_VAR", False)
+        self.assertTrue(result)
+        mock_get_optional.assert_called_once_with("BOOL_VAR")
+
+
 
 if __name__ == '__main__':
     unittest.main()

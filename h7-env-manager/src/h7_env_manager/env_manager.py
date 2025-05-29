@@ -1,4 +1,5 @@
 import os
+
 from h7_file_finder import find_env_file
 
 # Track whether dotenv has been loaded
@@ -47,7 +48,30 @@ class EnvManager:
             default: The default value to return if the variable is not found
         Returns:
             The value of the environment variable or the default value
-
         """
         cls._ensure_dotenv_loaded()
-        return os.getenv(key, default)
+        value = os.getenv(key)  # Only the key is passed here
+        if value is None:
+            return default  # Default handling happens here, not in os.getenv
+        return value
+
+    @classmethod
+    def get_optional_bool_env_var(cls, key: str, default: bool=False) -> bool:
+        """
+        Retrieves a boolean environment variable.
+
+        Args:
+            key: The name of the environment variable
+            default: Default value to return if the environment variable is not set
+        Returns:
+            The boolean value of the environment variable or the default value
+        """
+        cls._ensure_dotenv_loaded()
+        value = cls.get_optional_env_var(key)
+
+        # Return default if value is None or empty string
+        if not value:
+            return default
+
+        # Convert string to boolean
+        return value.lower() == "true"
